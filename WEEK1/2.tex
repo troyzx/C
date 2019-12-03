@@ -1,0 +1,42 @@
+% texlive2015, pdflatex
+\documentclass{article}
+\usepackage{palatino}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+\begin{document}
+\thispagestyle{empty}
+% 流程图定义基本形状
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width = 2cm, minimum height=1cm,text centered, draw = black]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2cm, minimum height=1cm, text centered, draw=black]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black]
+\tikzstyle{decision} = [diamond, aspect = 3, text centered, draw=black]
+% 箭头形式
+\tikzstyle{arrow} = [->,>=stealth]
+\begin{tikzpicture}[node distance=2cm]
+%定义流程图具体形状
+\node[startstop](start){Start};
+\node[io, below of = start](in1){Input an 2-order equation};
+\node[process, below of = in1](pro1){$\Delta=b^2-4ac$};
+\node[decision, below of = pro1](dec1){$\Delta=0?$};
+\node[decision, below of = dec1](dec2){$\Delta>0?$};
+;
+\node[process, below of = dec2](pro2){$x=\frac 1{2a}(-b\pm(\sqrt{b^2-4ac})$};
+\node[process, right of = pro2, xshift = 3cm](pro3){$x=-\frac b{2a}$};
+\node[process, left of = pro2, xshift = -3cm](pro4){$x=\frac 1{2a}[-b\pm(\sqrt{b^2-4ac})i]$};
+\node[io,below of = pro2, yshift = -1cm](out1){output x};
+\node[startstop, below of = out1](stop){Stop};
+\coordinate (point1) at (0 cm, -12cm);
+%连接具体形状
+\draw [arrow] (start) -- (in1);
+\draw [arrow] (in1) -- (pro1);
+\draw [arrow] (pro1) -- (dec1);
+\draw [arrow] (dec1) -| node [above, xshift = -3cm] {Y} (pro3);
+\draw [arrow] (dec1) -- node [left] {N} (dec2);
+\draw [arrow] (dec2) -- node [left] {Y} (pro2);
+\draw [arrow] (dec2) -| node [left] {N} (pro4);
+\draw [arrow] (pro2) -- (out1);
+\draw (pro3) |- (point1);
+\draw (pro4) |- (point1);
+\draw [arrow] (out1) -- (stop);
+\end{tikzpicture}
+\end{document}

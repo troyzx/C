@@ -1,0 +1,44 @@
+% texlive2015, pdflatex
+\documentclass{article}
+\usepackage{palatino}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+\begin{document}
+\thispagestyle{empty}
+% 流程图定义基本形状
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width = 2cm, minimum height=1cm,text centered, draw = black]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2cm, minimum height=1cm, text centered, draw=black]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black]
+\tikzstyle{decision} = [diamond, aspect = 3, text centered, draw=black]
+% 箭头形式
+\tikzstyle{arrow} = [->,>=stealth]
+\begin{tikzpicture}[node distance=2cm]
+%定义流程图具体形状
+\node[startstop](start){Start};
+\node[io, below of = start](in1){Input 10 numbers as array a[10]};
+\node[process, below of = in1](pro1){$i=0$};
+\node[decision, below of = pro1](dec1){$a_i>a_{i-1}?$};
+\node[process, below of = dec1](pro2){$exchange\ (a_i,a_{i-1})$};
+\node[process, below of = pro2](pro3){$i=i+1$};
+\node[decision, below of = pro3](dec2){$i>9?$};
+\node[io,below of = dec2](out1){output a[9]};
+\node[startstop, below of = out1](stop){Stop};
+\coordinate (point1) at (3 cm, -9cm);
+\coordinate (point2) at (0 cm, -9cm);
+\coordinate (point3) at (-3 cm, -5cm);
+\coordinate (point4) at (0 cm, -5cm);
+%连接具体形状
+\draw [arrow] (start) -- (in1);
+\draw [arrow] (in1) -- (pro1);
+\draw [arrow] (pro1) -- (dec1);
+\draw [arrow] (dec1) -- node [left] {Y} (pro2);
+\draw (dec2) -| node [above, xshift = 1.5cm] {N} (point3);
+\draw [arrow] (point3) -- (point4);
+\draw [arrow] (pro2) -- (pro3);
+\draw [arrow] (pro3) -- (dec2);
+\draw (dec1) -| node [above, xshift = -1cm] {N}(point1);
+\draw [arrow] (point1) -- (point2);
+\draw [arrow] (dec2) -- node [left] {Y} (out1);
+\draw [arrow] (out1) -- (stop);
+\end{tikzpicture}
+\end{document}
